@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Fonte: Roboto Mono-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <title>To do list</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1><span>To do List</span></h1>
+    </header>
+    <main>
+        <form id="addTask" onsubmit="adicionarTask(event)">
+            <div class="divDoTextInput">
+                <input type="text" name="textInput" id="textInput" placeholder="Digite sua Tarefa">
+                <button type="submit" class="btn" id="btn-add">Adicionar</button>
+                <button type="button" id="btn-concluidos" class="btn">&check;</button>
+            </div>
+        </form>
+        <ul id="showTask">
+            
+        </ul>
+        <input type="text" id="sourceInput" class="sourceInput" placeholder="Busque sua tarefa aqui">
+    </main>
+    <footer>
+        <p>&copy; Matheus de Andrade, Casado com minha amor</p>
+    </footer>
+</body>
+</html>

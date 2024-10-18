@@ -1,0 +1,184 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto Mono", monospace;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #9dedc689;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #548E72;
+    color: #FFF;
+    width: 100%;
+    height: 10vh;
+}
+
+header h1 {
+    font-size: 8vh;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #D9D9D9;
+    width: 80vw;
+    height: 100%;
+}
+
+
+/*Estilo da parte onde adicionamos a tarefa desejada*/
+#addTask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 5vh;
+    margin: 10px;
+}
+
+.divDoTextInput {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#checkConcluidas {
+    margin: 0px 10px;
+}
+
+#textInput {
+    margin: 5vw;
+    height: 5vh;
+    min-height: 20px;
+    padding-left: 2vw;
+}
+
+#textInput::placeholder {
+    text-align: center;
+    padding-right: 2vw;
+}
+
+/*Estilo dos botões do site*/
+.btn {
+    height: 5vh;
+    width: 16vw;
+    max-width: 80px;
+    min-height: 20px;
+    margin: 1vw;
+    background-color: #282a29;
+    border: none;
+    outline: none;
+    color: #FFF;
+    border-radius: 10px;
+    transition: color 0.5s, transform 0.2s;
+}
+
+.btn:hover {
+    color: #d3f8e5;
+    cursor: pointer;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+#btn-remove:hover {
+    color: rgb(241, 185, 185);
+}
+
+/*Estilo da tarefa e de tudo dento da ul*/
+#showTask {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    height: 70vh;
+    min-height: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#showTask li {
+    display: flex;
+    align-items: center;
+    padding: 2vh;
+}
+
+.task {
+    margin: 1.5px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #282a293c;
+}
+
+.task::before {
+    content: var(--before-content);
+    color: #0000009c;
+}
+
+.p-task {
+    width: 60%;
+    margin: 0px 5vw;
+    overflow-x: auto;
+}
+
+/*Estilo da caixa de busca de tarefas*/
+.sourceInput {
+    width: 30%;
+}
+
+.sourceInput::placeholder{
+    text-align: center;
+}
+
+/*Estilização do cabeçalho*/
+footer {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #548E72;
+    color: #FFF;
+    font-weight: bolder;
+}
+
+/*Este código serve para estilizar as barras de rolagem do site*/
+ul::-webkit-scrollbar {
+    width: 7px;               /* width of the entire scrollbar */
+  }
+  
+ul::-webkit-scrollbar-track {
+    background: #FFF;        /* color of the tracking area */
+  }
+  
+ul::-webkit-scrollbar-thumb {
+    background-color: grey;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+  }
+
+p::-webkit-scrollbar{
+    height: 5px;
+}
+p::-webkit-scrollbar-track{
+    background: #FFF;
+}
+p::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 1px;
+}
