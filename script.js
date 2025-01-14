@@ -1,262 +1,230 @@
-const checkConcluidas = document.getElementById('btn-concluidos')
+const checkConcluidas = document.getElementById("btn-concluidos");
 
-var link = 'http://localhost:3000/tarefas'
+var link = "tarefas";
 
 //Verifica se o link do host para dar fetch no array certo
-checkConcluidas.addEventListener('click', () => {
-    if(link == 'http://localhost:3000/tarefas-concluidas'){
-        link = 'http://localhost:3000/tarefas'
-    }else{
-        link = 'http://localhost:3000/tarefas-concluidas'
-    }
-    console.log('ok', link)
-    fetchTasks(link)
-})
+checkConcluidas.addEventListener("click", () => {
+  if (link == "tarefas-concluidas") {
+    link = "tarefas";
+  } else {
+    link = "tarefas-concluidas";
+  }
+  console.log("ok", link);
+  fetchTasks(link);
+});
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchTasks(link)
-})
+document.addEventListener("DOMContentLoaded", () => {
+  fetchTasks(link);
+});
 
 //Função para carregar a pagina com os elementos
 function fetchTasks(link) {
-    fetch(link)
-    .then(response => response.json())
-    .then(data => {
-        const showTask = document.getElementById('showTask')
-        showTask.innerHTML = ''
+  let tasks = JSON.parse(localStorage.getItem(link)) || [];
+  const showTask = document.getElementById("showTask");
+  showTask.innerHTML = "";
 
-        if(data.length == 0){
-        const msgEntrada = document.createElement('h1')
-        msgEntrada.style.color = 'grey'
-        msgEntrada.textContent = 'Insira uma tarefa...'
-        console.log('msg', msgEntrada)
-        showTask.appendChild(msgEntrada)
-        }
+  if (tasks.length == 0) {
+    const msgEntrada = document.createElement("h1");
+    msgEntrada.style.color = "grey";
+    msgEntrada.textContent = "Insira uma tarefa...";
+    console.log("msg", msgEntrada);
+    showTask.appendChild(msgEntrada);
+  }
 
-        data.forEach((task, index) => {
-            //Mostra o li onde tem a task e o botão de remoção da mesma
-            const novaTask = document.createElement('li')
-            novaTask.setAttribute('data-id', `${task.id}`)
-            novaTask.className = 'task'
+  tasks.forEach((task, index) => {
+    //Mostra o li onde tem a task e o botão de remoção da mesma
+    const novaTask = document.createElement("li");
+    novaTask.setAttribute("data-id", `${task.id}`);
+    novaTask.className = "task";
 
-            //Mostra a task
-            const paragrafo = document.createElement('p')
-            paragrafo.classList = 'p-task'
-            paragrafo.textContent = task.nome
+    //Mostra a task
+    const paragrafo = document.createElement("p");
+    paragrafo.classList = "p-task";
+    paragrafo.textContent = task.nome;
 
-            //Adiciona o index para colocar no ::before
-            novaTask.style.setProperty('--before-content', `"${index+1}"`)
+    //Adiciona o index para colocar no ::before
+    novaTask.style.setProperty("--before-content", `"${index + 1}"`);
 
-            //Mostra o botão da task Feita
-            const botaoFeito = document.createElement('button')
-            botaoFeito.textContent = '\u2713';
-            botaoFeito.className = 'btn'
-            botaoFeito.id = 'btn-add'
-            botaoFeito.setAttribute('onclick', `concluirTask(${task.id}, event)`)
-            
-            //Mostra o botão de remover a task
-            const botaoRemover = document.createElement('button')
-            botaoRemover.textContent = 'X'
-            botaoRemover.id = 'btn-remove'
-            botaoRemover.className = 'btn'
-            botaoRemover.setAttribute('onclick', `removeTask(${task.id}, event)`)
-            botaoRemover.setAttribute('data-id', `${task.id}`)
+    //Mostra o botão da task Feita
+    const botaoFeito = document.createElement("button");
+    botaoFeito.textContent = "\u2713";
+    botaoFeito.className = "btn";
+    botaoFeito.id = "btn-add";
+    botaoFeito.setAttribute("onclick", `concluirTask(${task.id}, event)`);
 
-            //Adicona os elementos no li
-            novaTask.appendChild(paragrafo)
-            novaTask.appendChild(botaoRemover)
-            novaTask.appendChild(botaoFeito)
+    //Mostra o botão de remover a task
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "X";
+    botaoRemover.id = "btn-remove";
+    botaoRemover.className = "btn";
+    botaoRemover.setAttribute("onclick", `removeTask(${task.id}, event)`);
+    botaoRemover.setAttribute("data-id", `${task.id}`);
 
-            //Colore de verde se estiver concluida
-            if(task.concluida == true){
-                novaTask.style.backgroundColor = '#548e72'
-                novaTask.removeChild(botaoFeito)
-            }
+    //Adicona os elementos no li
+    novaTask.appendChild(paragrafo);
+    novaTask.appendChild(botaoRemover);
+    novaTask.appendChild(botaoFeito);
 
-            //Adicionando a div dentro da lista de tarefas
-            showTask.appendChild(novaTask)
-            
-        })
-    })
-    .catch(err => console.error('Erro ao buscar as tarefas:', err))
+    //Colore de verde se estiver concluida
+    if (task.concluida == true) {
+      novaTask.style.backgroundColor = "#548e72";
+      novaTask.removeChild(botaoFeito);
+    }
+
+    //Adicionando a div dentro da lista de tarefas
+    showTask.appendChild(novaTask);
+  });
 }
 
 function adicionarTask() {
+  const textInput = document.querySelector("#textInput");
+  const showTask = document.querySelector("#showTask");
 
-    const textInput = document.querySelector('#textInput')
-    const showTask = document.querySelector('#showTask')
-    
-    if (textInput.value.length <= 0) {
-        alert('Erro, digite alguma tarefa a ser adicionada!')
-        return false
-    } else {
-        console.log(`Tudo ok, o value do textInput é ${textInput.value}, o showTask é ${showTask} e o value dele é ${showTask.value}`)
+  if (textInput.value.length <= 0) {
+    alert("Erro, digite alguma tarefa a ser adicionada!");
+    return false;
+  } else {
+    console.log(
+      `Tudo ok, o value do textInput é ${textInput.value}, o showTask é ${showTask} e o value dele é ${showTask.value}`
+    );
 
-        //Criação do li onde tem a task e o botão de remoção da mesma
-        const novaTask = document.createElement('li')
-        novaTask.className = 'task'
+    //Criação do li onde tem a task e o botão de remoção da mesma
+    const novaTask = document.createElement("li");
+    novaTask.className = "task";
 
-        //Criação da task
-        const paragrafo = document.createElement('p')
-        paragrafo.classList = 'p-task'
-        paragrafo.textContent = textInput.value
+    //Criação da task
+    const paragrafo = document.createElement("p");
+    paragrafo.classList = "p-task";
+    paragrafo.textContent = textInput.value;
 
-        //Criação do objeto task, com seu nome e id
-        const task = {
-            id: Date.now().toString(),
-            nome: paragrafo.textContent,
-            concluida: false
-        }
+    //Criação do objeto task, com seu nome e id
+    const task = {
+      id: Date.now().toString(),
+      nome: paragrafo.textContent,
+      concluida: false,
+    };
 
-        //Criação do botão da task Feita
-        const botaoFeito = document.createElement('button')
-        botaoFeito.textContent = '\u2713';
-        botaoFeito.className = 'btn'
-        botaoFeito.id = 'btn-add'
-        botaoFeito.setAttribute('onclick', `concluirTask(${task.id}, event)`)
+    //Criação do botão da task Feita
+    const botaoFeito = document.createElement("button");
+    botaoFeito.textContent = "\u2713";
+    botaoFeito.className = "btn";
+    botaoFeito.id = "btn-add";
+    botaoFeito.setAttribute("onclick", `concluirTask(${task.id}, event)`);
 
-        //Criação do botão de remover a task
-        const botaoRemover = document.createElement('button')
-        botaoRemover.textContent = 'X'
-        botaoRemover.id = 'btn-remove'
-        botaoRemover.className = 'btn'
-        botaoRemover.setAttribute('onclick', `removeTask(${task.id}, event)`)
-        botaoRemover.setAttribute('data-id', `${task.id}`)
+    //Criação do botão de remover a task
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "X";
+    botaoRemover.id = "btn-remove";
+    botaoRemover.className = "btn";
+    botaoRemover.setAttribute("onclick", `removeTask(${task.id}, event)`);
+    botaoRemover.setAttribute("data-id", `${task.id}`);
 
-        //Adicionando os elementos no li
-        novaTask.appendChild(paragrafo)
-        novaTask.appendChild(botaoRemover)
-        novaTask.appendChild(botaoFeito)
+    //Adicionando os elementos no li
+    novaTask.appendChild(paragrafo);
+    novaTask.appendChild(botaoRemover);
+    novaTask.appendChild(botaoFeito);
 
-        //Adicionando a div dentro da lista de tarefas
-        showTask.appendChild(novaTask)
+    //Adicionando a div dentro da lista de tarefas
+    showTask.appendChild(novaTask);
 
-        //Limpar a caixa de texto do Input
-        textInput.value = ''
-        
-        //Enviando o objeto task para o db.json
-        fetch('http://localhost:3000/tarefas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(task)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Tarefa adicionada com sucesso:', data)
-        })
-        .catch(err => console.error('Erro ao adicionar a tarefa:', err))
+    //Salvar a tarefa no localStorage
+    let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+    tarefas.push(task);
+    localStorage.setItem("tarefas", JSON.stringify(tarefas));
 
-        textInput.value = ''
-        textInput.focus()
-    }
+    //Limpar a caixa de texto do Input
+    textInput.value = "";
+    textInput.focus();
+  }
 }
 
 function removeTask(id, event) {
-    event.preventDefault()
+  event.preventDefault();
 
-    console.log(link, id)
-    fetch(`${link}/${id}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Tarefa removida com sucesso', data)
-    })
-    .catch(err => console.error('Erro ao remover tarefa', err))
+  let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+  tarefas = tarefas.filter((task) => task.id != id);
+  localStorage.setItem(link, JSON.stringify(tarefas));
+
+  console.log("Tarefa removida com sucesso");
+  fetchTasks(link);
 }
 
 //Buscar as tarefas
-const sourceInput = document.getElementById('sourceInput')
+const sourceInput = document.getElementById("sourceInput");
 
-sourceInput.addEventListener('input', function buscarTarefa(){
+sourceInput.addEventListener("input", function buscarTarefa() {
+  const listaDeTarefas = document.querySelector("#showTask");
+  listaDeTarefas.innerHTML = "";
 
-    const listaDeTarefas = document.querySelector('#showTask')
-    listaDeTarefas.innerHTML = ''
+  let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+  const tarefasFiltradas = tarefas.filter((tarefa) =>
+    tarefa.nome.includes(sourceInput.value)
+  );
 
-    fetch('http://localhost:3000/tarefas')
-    .then(response => response.json())
-    .then(data => {
+  console.log(tarefasFiltradas);
 
-        console.log(data)
-        const arrComTarefas = data
-        const tarefasFiltradas = arrComTarefas.filter(tarefa => tarefa.nome.includes(sourceInput.value))
+  tarefasFiltradas.forEach((task) => {
+    //Mostra o li onde tem a task e o botão de remoção da mesma
+    const novaTask = document.createElement("li");
+    novaTask.className = "task";
 
-        console.log(tarefasFiltradas)
+    //Mostra a task
+    const paragrafo = document.createElement("p");
+    paragrafo.classList = "p-task";
+    paragrafo.textContent = task.nome;
 
-        tarefasFiltradas.forEach(task => {
+    //Mostra o botão da task Feita
+    const botaoFeito = document.createElement("button");
+    botaoFeito.textContent = "\u2713";
+    botaoFeito.className = "btn";
+    botaoFeito.id = "btn-add";
+    botaoFeito.setAttribute("onclick", `concluirTask(${task.id}, event)`);
 
-            //Mostra o li onde tem a task e o botão de remoção da mesma
-            const novaTask = document.createElement('li')
-            novaTask.className = 'task'
+    //Mostra o botão de remover a task
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "X";
+    botaoRemover.id = "btn-remove";
+    botaoRemover.className = "btn";
+    botaoRemover.setAttribute("onclick", `removeTask(${task.id})`);
+    botaoRemover.setAttribute("data-id", `${task.id}`);
 
-            //Mostra a task
-            const paragrafo = document.createElement('p')
-            paragrafo.classList = 'p-task'
-            paragrafo.textContent = task.nome;
+    //Adicona os elementos no li
+    novaTask.appendChild(paragrafo);
+    novaTask.appendChild(botaoRemover);
+    novaTask.appendChild(botaoFeito);
 
-            //Mostra o botão da task Feita
-            const botaoFeito = document.createElement('button')
-            botaoFeito.textContent = '\u2713';
-            botaoFeito.className = 'btn'
-            botaoFeito.id = 'btn-add'
-            botaoFeito.setAttribute('onclick', 'concluirTask()')
-
-            //Mostra o botão de remover a task
-            const botaoRemover = document.createElement('button')
-            botaoRemover.textContent = 'X'
-            botaoRemover.id = 'btn-remove'
-            botaoRemover.className = 'btn'
-            botaoRemover.setAttribute('onclick', `removeTask(${task.id})`)
-            botaoRemover.setAttribute('data-id', `${task.id}`)
-
-            //Adicona os elementos no li
-            novaTask.appendChild(paragrafo)
-            novaTask.appendChild(botaoRemover)
-            novaTask.appendChild(botaoFeito)
-
-            //Adicionando a div dentro da lista de tarefas
-            showTask.appendChild(novaTask)
-        })
-})
-})
+    //Adicionando a div dentro da lista de tarefas
+    showTask.appendChild(novaTask);
+  });
+});
 
 //função de conclusão de task
 function concluirTask(id, event) {
-    event.preventDefault()
+  event.preventDefault();
 
-    fetch('http://localhost:3000/tarefas')
-        .then(response => response.json())
-        .then(data => {
-            console.log('esse é o data ', data);
-            console.log('esse é o id: ', id);
-            data.forEach(tarefa => {
+  let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+  let tarefaConcluida = null;
 
-                //Se a tarefa verificada tiver o mesmo id do botão ela será movida para o array tarefas-concluidas
-                if(tarefa.id == id){
+  tarefas = tarefas.map((task) => {
+    if (task.id == id) {
+      task.concluida = true;
+      tarefaConcluida = task;
+    }
+    return task;
+  });
 
-                    tarefa.concluida = true
+  localStorage.setItem("tarefas", JSON.stringify(tarefas));
 
-                    console.log(`tarefa id ${tarefa.id}, tarefa nome ${tarefa.nome}, tarefa concluida ${tarefa.concluida}`)
-    
-                    //Mandando a tarefa concluída
-                    fetch('http://localhost:3000/tarefas-concluidas', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(tarefa)
-                    })
-                    .then(resp => resp.json)
-                    .then(data => {
-                        console.log('Dados enviados com sucesso ', data)
-                    })
-                    .catch(error => console.log('Erro: ', error))
-                    removeTask(id, event)
-                }
-                
-            })
-        
-        })
+  if (tarefaConcluida) {
+    let tarefasConcluidas =
+      JSON.parse(localStorage.getItem("tarefas-concluidas")) || [];
+    tarefasConcluidas.push(tarefaConcluida);
+    localStorage.setItem(
+      "tarefas-concluidas",
+      JSON.stringify(tarefasConcluidas)
+    );
+  }
+
+  removeTask(id, event);
+  fetchTasks(link);
 }
