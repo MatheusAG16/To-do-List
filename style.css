@@ -6,7 +6,7 @@
 }
 
 body {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: #D9D9D9;
     width: 80vw;
     height: 100%;
@@ -106,7 +106,7 @@ main {
     flex-direction: column;
     align-items: center;
     width: 60%;
-    height: 70vh;
+    height: 55vh;
     min-height: 20px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -115,7 +115,8 @@ main {
 #showTask li {
     display: flex;
     align-items: center;
-    padding: 2vh;
+    padding: 1vh;
+    border-radius: 10px;
 }
 
 .task {
@@ -139,14 +140,16 @@ main {
 
 /*Estilo da caixa de busca de tarefas*/
 .sourceInput {
-    width: 30%;
+    width: 50%;
+    margin: 5px;
+    font-size: .5em;
 }
 
 .sourceInput::placeholder{
     text-align: center;
 }
 
-/*Estilização do cabeçalho*/
+/*Estilização do rodapé*/
 footer {
     width: 100%;
     height: 5vh;
@@ -156,6 +159,10 @@ footer {
     background-color: #548E72;
     color: #FFF;
     font-weight: bolder;
+}
+
+footer p {
+    font-size: .7em;
 }
 
 /*Este código serve para estilizar as barras de rolagem do site*/
@@ -181,4 +188,25 @@ p::-webkit-scrollbar-track{
 p::-webkit-scrollbar-thumb{
     background-color: gray;
     border-radius: 1px;
+}
+
+/*Estilização para aplicativos mobile*/
+@media(max-width: 620px){
+
+    .divDoTextInput {
+        width: 100%;
+    }
+
+    #textInput {
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 1em;
+    }
+
+    #addTask{
+        width: 90%;
+    }
 }
