@@ -110,7 +110,7 @@ main {
     flex-direction: column;
     align-items: center;
     width: 60%;
-    height: 55vh;
+    height: 80%;
     min-height: 20px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -144,9 +144,11 @@ main {
 
 /*Estilo da caixa de busca de tarefas*/
 .sourceInput {
-    width: 50%;
+    width: 70%;
     margin: 5px;
     font-size: 1em;
+    height: 20px;
+    max-width: 300px;
 }
 
 .sourceInput::placeholder{
