@@ -42,6 +42,10 @@ main {
     height: 100%;
 }
 
+main h1 {
+    font-size: 1em;
+}
+
 
 /*Estilo da parte onde adicionamos a tarefa desejada*/
 #addTask {
@@ -208,10 +212,6 @@ p::-webkit-scrollbar-thumb{
     #textInput {
         margin: 0;
         padding: 0;
-    }
-
-    h1 {
-        font-size: 1em;
     }
 
     #addTask{
