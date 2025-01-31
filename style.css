@@ -200,6 +200,7 @@ p::-webkit-scrollbar-thumb{
     #textInput {
         margin: 0;
         padding: 0;
+        width: 90%;
     }
 
     h1 {
