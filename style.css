@@ -159,6 +159,8 @@ footer {
     background-color: #548E72;
     color: #FFF;
     font-weight: bolder;
+    position: relative;
+    bottom: 0px;
 }
 
 footer p {
